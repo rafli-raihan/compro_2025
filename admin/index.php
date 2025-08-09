@@ -20,7 +20,7 @@
       if ($password == $row['password']) {
         $_SESSION['ID_USER'] = $row['id'];
         $_SESSION['NAME'] = $row['name'];
-        header('location:index.php'); # ini jadi klo login berhasil di redirect ke index.php
+        header('location:home.php'); # ini jadi klo login berhasil di redirect ke index.php
       }else{
         header('location:index.php?error=password');   // jadi ini tambahin params di link karna ini di else buat cek password ya ini sm aj nge-set params error ke link, yaitu error password 
       }
@@ -96,7 +96,7 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your email & password to login</p>
 
-                    // Ini munculin div html yg beda tergantung params error nya sama dengan email atau password (cek atas!)
+                    <!-- Ini munculin div html yg beda tergantung params error nya sama dengan email atau password (cek atas!) -->
                     <?php 
                       if(isset($_GET['error'])){
                         if ($_GET['error'] == 'password') {
