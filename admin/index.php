@@ -1,4 +1,5 @@
 <?php 
+  session_start(); // klo make $_SESSION hrs make ini, ini sm aj kya cookies ($_COOKIES) cm bedanya klo cookies bisa di timestamp
   include 'koneksi.php';
 
   // jika email dan password terisi maka output semua data dari tabel users (sql)
@@ -10,17 +11,21 @@
 
     $query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
 
-    // Jika email terdaftar (ada dalam db sql), mysqli_num_rows($query) == 1 klo gaada == 0
+    // Jika email terdaftar (ada dalam db sql), mysqli_num_rows($query) == 1 klo gaada == 0, 
+    // jadi cara kerjanya itu dia nyari email itu hrs ada 1 di dalam database jd misalnya diganti ke username gtu, 
+    // yaudah berarti dia ngecek hrs ada 1 username yang sama di dalam db sm yg di input
+
     if (mysqli_num_rows($query) == 1) {
       $row = mysqli_fetch_assoc($query);
       if ($password == $row['password']) {
-        echo "Login berhasil";
-        die;
+        $_SESSION['ID_USER'] = $row['id'];
+        $_SESSION['NAME'] = $row['name'];
+        header('location:index.php'); # ini jadi klo login berhasil di redirect ke index.php
       }else{
-        echo "Password salah";
+        header('location:index.php?error=password');   // jadi ini tambahin params di link karna ini di else buat cek password ya ini sm aj nge-set params error ke link, yaitu error password 
       }
     }else{
-      echo "Email tidak terdaftar";
+      header('location:index.php?error=email'); // jadi ini tambahin params di link karna ini di else buat cek email ya ini sm aj nge-set params error ke link, yaitu error email
     }
   }
 
@@ -90,6 +95,18 @@
                   <div class="pt-4 pb-2">
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your email & password to login</p>
+
+                    // Ini munculin div html yg beda tergantung params error nya sama dengan email atau password (cek atas!)
+                    <?php 
+                      if(isset($_GET['error'])){
+                        if ($_GET['error'] == 'password') {
+                          echo '<div class="alert alert-warning">Password Salah!</div>';
+                        } elseif($_GET['error'] == 'email') {                  
+                          echo '<div class="alert alert-warning">Email tidak ditemukan!</div>';
+                        }
+                      }
+                    ?>
+                    
                   </div>
 
                   <form method="post" class="row g-3 needs-validation" novalidate>
