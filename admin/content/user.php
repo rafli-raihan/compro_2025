@@ -32,14 +32,17 @@
                                 <?php 
                                 foreach ($rows as $key => $row): ?>
                                 <tr>
-                                    <td><?php echo $key ++; ?></td>
+                                    <td><?php echo $key += 1; ?></td>
                                     <td><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
                                     <td>
-                                        <a href="" class="btn btn-success">
+                                        <a href="?page=tambah-user&edit=<?php echo $row['id'] ?>" class="btn btn-success">
                                             Edit
                                         </a>
-                                        <a href="" class="btn btn-danger">
+                                        <a 
+                                        onclick="return confirm('Apakah anda yakin ingin mneghapus data?')"
+                                        href="?page=tambah-user&delete=<?php echo $row['id'] ?>" 
+                                        class="btn btn-danger">
                                             Delete
                                         </a>
                                     </td>
