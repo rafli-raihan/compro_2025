@@ -30,9 +30,9 @@
                             </thead>
                             <tbody>
                                 <?php 
-                                foreach ($rows as $key => $row); ?>
+                                foreach ($rows as $key => $row): ?>
                                 <tr>
-                                    <td><?php echo $key++; ?></td>
+                                    <td><?php echo $key ++; ?></td>
                                     <td><?php echo $row['name']; ?></td>
                                     <td><?php echo $row['email']; ?></td>
                                     <td>
@@ -44,6 +44,7 @@
                                         </a>
                                     </td>
                                 </tr>
+                                <?php endforeach; ?>
                                 
                             </tbody>
                         </table>
