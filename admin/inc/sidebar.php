@@ -98,9 +98,9 @@
       </li><!-- End Profile Page Nav -->
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="pages-faq.html">
-          <i class="bi bi-question-circle"></i>
-          <span>F.A.Q</span>
+        <a class="nav-link collapsed" href="?page=settings">
+          <i class="bi bi-gear"></i>
+          <span>Settings</span>
         </a>
       </li><!-- End F.A.Q Page Nav -->
 
