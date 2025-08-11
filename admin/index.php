@@ -20,7 +20,7 @@
       if ($password == $row['password']) {
         $_SESSION['ID_USER'] = $row['id'];
         $_SESSION['NAME'] = $row['name'];
-        header('location:home.php'); # ini jadi klo login berhasil di redirect ke index.php
+        header('location:home.php'); # ini jadi klo login berhasil di redirect ke home.php
       }else{
         header('location:index.php?error=password');   // jadi ini tambahin params di link karna ini di else buat cek password ya ini sm aj nge-set params error ke link, yaitu error password 
       }
