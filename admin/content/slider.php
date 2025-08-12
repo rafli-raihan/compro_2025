@@ -33,7 +33,9 @@ $rows = mysqli_fetch_all($query, MYSQLI_ASSOC);
                             foreach ($rows as $key => $row): ?>
                                 <tr>
                                     <td><?php echo $key += 1; ?></td>
-                                    <td><img src="uploads/<?php echo $row['image'] ?>" alt="" width="250px"></td>
+                                    <td>
+                                        <img src="uploads/<?php echo $row['image'] ?>" alt="" width="250px">
+                                    </td>
                                     <td><?php echo $row['title']; ?></td>
                                     <td><?php echo $row['description']; ?></td>
                                     <td>
