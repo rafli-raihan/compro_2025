@@ -41,8 +41,8 @@
                     }
                 }
             } else {
-                #tidak boleh upload
-                header('location:?page=tambah-slider&foto=gagal');
+                echo "tidak boleh upload";
+                die;
             }
         }
 
