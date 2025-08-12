@@ -17,20 +17,32 @@
         //buat narik gambar dari upload file
         if (!empty($_FILES['image']['name'])) {      #$_FILE ini buat ngolah file dari form type file
             $image = $_FILES['image']['name'];
-            $path = "uploads/";     # ini buat nyimpen file gambar ke folder mana (di db)
-            if (!is_dir($path)) {   # kalo folder uploads blom ada (di db), dia buat foldernya
-                mkdir($path);
-            }
+            $tmp_name = $_FILES['image']['tmp_name'];
 
-            $image_name = time() . "-" . basename($image);   #ini buat hashing (enkripsi) gambar pake waktu
-            $target_file = $path . $image_name;
+            # FIle type checking
+            $type = mime_content_type($tmp_name);
+            $allowed_filetype = ['image/jpg', 'image/png', 'image/jpeg'];
 
-            if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
-                # Jika gambarnya ada, maka gambar sebelumnya di replace sm yg baru (logo lama diapus ditimpa yg baru)
-                if (!empty($row['image'])) {
-                    # ini buat cek tabl logo di db udah ada isinya blom
-                    unlink($path . $row['image']);
+            if (in_array($type, $allowed_filetype)) {
+                #boleh upload
+                $path = "uploads/";     # ini buat nyimpen file gambar ke folder mana (di db)
+                if (!is_dir($path)) {   # kalo folder uploads blom ada (di db), dia buat foldernya
+                    mkdir($path);
                 }
+
+                $image_name = time() . "-" . basename($image);   #ini buat hashing (enkripsi) gambar pake waktu
+                $target_file = $path . $image_name;
+
+                if (move_uploaded_file($_FILES['image']['tmp_name'], $target_file)) {
+                    # Jika gambarnya ada, maka gambar sebelumnya di replace sm yg baru (logo lama diapus ditimpa yg baru)
+                    if (!empty($row['image'])) {
+                        # ini buat cek file logo di uploads udah ada isinya blom, klo udah ada dihapus ditimpa pake yg baru
+                        unlink($path . $row['image']);
+                    }
+                }
+            } else {
+                #tidak boleh upload
+                header('location:?page=tambah-slider&foto=gagal');
             }
         }
 
@@ -51,8 +63,13 @@
     }
     if (isset($_GET['delete'])) {
         $id = $_GET['delete'];
-        $delete = mysqli_query($koneksi, "DELETE FROM slider WHERE id='$id'");
+        $queryGambar = mysqli_query($koneksi, "SELECT id, image FROM slider WHERE id='$id'");
+        $rowGambar = mysqli_fetch_assoc($queryGambar);
 
+        $image_name = $rowGambar['image'];
+        unlink('uploads/' . $image_name);
+
+        $delete = mysqli_query($koneksi, "DELETE FROM slider WHERE id='$id'");
         if ($delete) {
             header("location:?page=slider&hapus=berhasil");
         }
