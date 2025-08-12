@@ -1,12 +1,12 @@
 <?php
-    # koneksi php tuh file sakti bwt sambungin database
-    include 'admin/koneksi.php';
-    # $querySettings sm $row ini buat narik table database
-    $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1"); 
-    # LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel, 
-    # kalo mau fetch semua data tabel gak usah pake LIMIT, klo mau ambil data trus diurutin make id tambahin ORDER BY id DESC
-    $row = mysqli_fetch_assoc($querySetting);
-  ?>
+# koneksi php tuh file sakti bwt sambungin database
+include 'admin/koneksi.php';
+# $querySettings sm $row ini buat narik table database
+$querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
+# LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel, 
+# kalo mau fetch semua data tabel gak usah pake LIMIT, klo mau ambil data trus diurutin make id tambahin ORDER BY id DESC
+$row = mysqli_fetch_assoc($querySetting);
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,8 +47,8 @@
 </head>
 
 <body class="index-page">
-  <?php 
-      include 'inc/header.php'; 
+  <?php
+  include 'inc/header.php';
   ?>
 
   <main class="main">
@@ -414,7 +414,7 @@
   </main>
 
   <?php
-    include 'inc/footer.php';
+  include 'inc/footer.php';
   ?>
 
   <!-- Scroll Top -->

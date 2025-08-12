@@ -1,33 +1,33 @@
-<?php 
-  session_start(); // klo make $_SESSION hrs make ini, ini sm aj kya cookies ($_COOKIES) cm bedanya klo cookies bisa di timestamp
-  include 'koneksi.php';
+<?php
+session_start(); // klo make $_SESSION hrs make ini, ini sm aj kya cookies ($_COOKIES) cm bedanya klo cookies bisa di timestamp
+include 'koneksi.php';
 
-  // jika email dan password terisi maka output semua data dari tabel users (sql)
-  // email nya diambil dari user input email
+// jika email dan password terisi maka output semua data dari tabel users (sql)
+// email nya diambil dari user input email
 
-  if($_SERVER['REQUEST_METHOD'] == "POST"){
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
+  $email = $_POST['email'];
+  $password = $_POST['password'];
 
-    $query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
+  $query = mysqli_query($koneksi, "SELECT * FROM users WHERE email='$email'");
 
-    // Jika email terdaftar (ada dalam db sql), mysqli_num_rows($query) == 1 klo gaada == 0, 
-    // jadi cara kerjanya itu dia nyari email itu hrs ada 1 di dalam database jd misalnya diganti ke username gtu, 
-    // yaudah berarti dia ngecek hrs ada 1 username yang sama di dalam db sm yg di input
+  // Jika email terdaftar (ada dalam db sql), mysqli_num_rows($query) == 1 klo gaada == 0, 
+  // jadi cara kerjanya itu dia nyari email itu hrs ada 1 di dalam database jd misalnya diganti ke username gtu, 
+  // yaudah berarti dia ngecek hrs ada 1 username yang sama di dalam db sm yg di input
 
-    if (mysqli_num_rows($query) == 1) {
-      $row = mysqli_fetch_assoc($query);
-      if ($password == $row['password']) {
-        $_SESSION['ID_USER'] = $row['id'];
-        $_SESSION['NAME'] = $row['name'];
-        header('location:home.php'); # ini jadi klo login berhasil di redirect ke home.php
-      }else{
-        header('location:index.php?error=password');   // jadi ini tambahin params di link karna ini di else buat cek password ya ini sm aj nge-set params error ke link, yaitu error password 
-      }
-    }else{
-      header('location:index.php?error=email'); // jadi ini tambahin params di link karna ini di else buat cek email ya ini sm aj nge-set params error ke link, yaitu error email
+  if (mysqli_num_rows($query) == 1) {
+    $row = mysqli_fetch_assoc($query);
+    if ($password == $row['password']) {
+      $_SESSION['ID_USER'] = $row['id'];
+      $_SESSION['NAME'] = $row['name'];
+      header('location:home.php'); # ini jadi klo login berhasil di redirect ke home.php
+    } else {
+      header('location:index.php?error=password');   // jadi ini tambahin params di link karna ini di else buat cek password ya ini sm aj nge-set params error ke link, yaitu error password 
     }
+  } else {
+    header('location:index.php?error=email'); // jadi ini tambahin params di link karna ini di else buat cek email ya ini sm aj nge-set params error ke link, yaitu error email
   }
+}
 
 ?>
 
@@ -97,16 +97,16 @@
                     <p class="text-center small">Enter your email & password to login</p>
 
                     <!-- Ini munculin div html yg beda tergantung params error nya sama dengan email atau password (cek atas!) -->
-                    <?php 
-                      if(isset($_GET['error'])){
-                        if ($_GET['error'] == 'password') {
-                          echo '<div class="alert alert-warning">Password Salah!</div>';
-                        } elseif($_GET['error'] == 'email') {                  
-                          echo '<div class="alert alert-warning">Email tidak ditemukan!</div>';
-                        }
+                    <?php
+                    if (isset($_GET['error'])) {
+                      if ($_GET['error'] == 'password') {
+                        echo '<div class="alert alert-warning">Password Salah!</div>';
+                      } elseif ($_GET['error'] == 'email') {
+                        echo '<div class="alert alert-warning">Email tidak ditemukan!</div>';
                       }
+                    }
                     ?>
-                    
+
                   </div>
 
                   <form method="post" class="row g-3 needs-validation" novalidate>

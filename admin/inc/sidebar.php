@@ -16,8 +16,8 @@
         </a>
         <ul id="components-nav" class="nav-content collapse " data-bs-parent="#sidebar-nav">
           <li>
-            <a href="components-alerts.html">
-              <i class="bi bi-circle"></i><span>Alerts</span>
+            <a href="?page=slider">
+              <i class="bi bi-circle"></i><span>Sliders</span>
             </a>
           </li>
           <li>
@@ -91,7 +91,7 @@
       <li class="nav-heading"></li>
 
       <li class="nav-item">
-        <a class="nav-link collapsed" href="?page=user"> 
+        <a class="nav-link collapsed" href="?page=user">
           <i class="bi bi-person"></i>
           <span>User</span>
         </a>
