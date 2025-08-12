@@ -1,7 +1,6 @@
 <?php 
-    # jika data settings sdh ada maka update data tersebut
-    # selain itu klo blom ada maka
-    $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");   #ini diluar if supaya bisa nampilin data2 nya ke form
+    # $querySettings sm $row ini buat narik database
+    $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1"); // LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel gak kya sebelumnya yg tanpa limit    
     $row = mysqli_fetch_assoc($querySetting);
 
     if (isset($_POST['simpan'])) {
@@ -12,7 +11,7 @@
         $ig = $_POST['ig'];
         $twitter = $_POST['twitter'];
         $linkedin = $_POST['linkedin'];
-        //jika gambar terupload
+        //buat narik gambar dari upload file
         if (!empty($_FILES['logo']['name'])) {      #$_FILE ini buat ngolah file dari form type file
             $logo = $_FILES['logo']['name'];            
             $path = "uploads/";     # ini buat nyimpen file gambar ke folder mana (di db)
@@ -21,9 +20,9 @@
             }
 
             $logo_name = time()."-".basename($logo);   #ini buat hashing (enkripsi) gambar pake waktu
-            $target_files = $path . $logo_name;
+            $target_file = $path . $logo_name;
 
-            if (move_uploaded_file($_FILES['logo']['tmp_name'], $target_files)) {
+            if (move_uploaded_file($_FILES['logo']['tmp_name'], $target_file)) {
                 # Jika gambarnya ada, maka gambar sebelumnya di replace sm yg baru (logo lama diapus ditimpa yg baru)
                 if (!empty($row['logo'])) {
                     # ini buat cek tabl logo di db udah ada isinya blom
@@ -34,7 +33,7 @@
         }
 
 
-        $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1"); // LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel gak kya sebelumnya yg tanpa limit
+        
         
         if ($row) {
             # update
