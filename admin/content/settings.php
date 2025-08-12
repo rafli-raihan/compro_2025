@@ -11,10 +11,10 @@
         $twitter = $_POST['twitter'];
         $linkedin = $_POST['linkedin'];
         $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1"); // LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel gak kya sebelumnya yg tanpa limit
-
+        
         if (mysqli_num_rows($querySetting)  > 0) {
             # update
-            $row = mysqli_fetch_assoc($querySetting);  // ini buat ngambil kolom2 dari tabel
+            
             $id_settings = $row['id']; // $row['nama_kolom_yg_mw_diambil'] ini buat ambil value dari satu kolom dari row, nahh biasanya ini buat ngambil id
             $update = mysqli_query($koneksi, "UPDATE settings SET email='$email', phone='$phone', address='$address', fb='$fb', ig='$ig', twitter='$twitter', linkedin='$linkedin' WHERE id='$id_settings'");
 
@@ -30,6 +30,10 @@
         }
         
     }
+
+    $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");   #ini diulang lg diluar if supaya bisa nampilin data2 nya ke form
+    $row = mysqli_fetch_assoc($querySetting);
+
 ?>
 
 <div class="pagetitle">
