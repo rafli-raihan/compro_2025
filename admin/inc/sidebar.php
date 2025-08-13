@@ -31,8 +31,8 @@
             </a>
           </li>
           <li>
-            <a href="components-breadcrumbs.html">
-              <i class="bi bi-circle"></i><span>Breadcrumbs</span>
+            <a href="?page=blog">
+              <i class="bi bi-circle"></i><span>Blogs</span>
             </a>
           </li>
           <li>
