@@ -3,17 +3,16 @@
 
     if (isset($_GET['edit'])) {
         $id = $_GET['edit'];
-        $query = mysqli_query($koneksi, "SELECT * FROM about WHERE id = '$id'");
+        $query = mysqli_query($koneksi, "SELECT * FROM client WHERE id = '$id'");
         $rowEdit = mysqli_fetch_assoc($query);
 
-        $title = "Edit About";
+        $name = "Edit Client";
     } else {
-        $title = "Tambah About";
+        $name = "Tambah Client";
     }
 
     if (isset($_POST['simpan'])) {
-        $title = $_POST['title'];
-        $content = $_POST['content'];
+        $name = $_POST['name'];
         $is_active = $_POST['is_active'];
         //buat narik gambar dari upload file
         if (!empty($_FILES['image']['name'])) {      #$_FILE ini buat ngolah file dari form type file
@@ -26,7 +25,7 @@
 
             if (in_array($type, $allowed_filetype)) {
                 #boleh upload
-                $path = "uploads/about/";     # ini buat nyimpen file gambar ke folder mana (di db)
+                $path = "uploads/client/";     # ini buat nyimpen file gambar ke folder mana (di db)
                 if (!is_dir($path)) {   # kalo folder uploads blom ada (di db), dia buat foldernya
                     mkdir($path);
                 }
@@ -49,36 +48,36 @@
 
 
         if ($id) {
-            // disini edit about
-            $insert = mysqli_query($koneksi, "UPDATE about SET title='$title', content='$content', image='$image_name', is_active='$is_active' WHERE id='$id'");
+            // disini edit client
+            $insert = mysqli_query($koneksi, "UPDATE client SET name='$name', image='$image_name', is_active='$is_active' WHERE id='$id'");
             if ($insert) {
-                header("location:?page=about&ubah=berhasil");
+                header("location:?page=client&ubah=berhasil");
             }
         } else {
-            // disini tambah about
-            $insert = mysqli_query($koneksi, "INSERT INTO about (title, content, image, is_active) VALUES ('$title','$content','$image_name','$is_active')");
+            // disini tambah client
+            $insert = mysqli_query($koneksi, "INSERT INTO client (name, image, is_active) VALUES ('$name','$image_name','$is_active')");
             if ($insert) {
-                header("location:?page=about&tambah=berhasil");
+                header("location:?page=client&tambah=berhasil");
             }
         }
     }
     if (isset($_GET['delete'])) {
         $id = $_GET['delete'];
-        $queryGambar = mysqli_query($koneksi, "SELECT id, image FROM about WHERE id='$id'");
+        $queryGambar = mysqli_query($koneksi, "SELECT id, image FROM client WHERE id='$id'");
         $rowGambar = mysqli_fetch_assoc($queryGambar);
 
         $image_name = $rowGambar['image'];
-        unlink("uploads/about/" . $image_name);
+        unlink("uploads/client/" . $image_name);
 
-        $delete = mysqli_query($koneksi, "DELETE FROM about WHERE id='$id'");
+        $delete = mysqli_query($koneksi, "DELETE FROM client WHERE id='$id'");
         if ($delete) {
-            header("location:?page=about&hapus=berhasil");
+            header("location:?page=client&hapus=berhasil");
         }
     }
     ?>
 
     <div class="pagetitle">
-        <h1><?php echo $title; ?></h1>
+        <h1><?php echo $name; ?></h1>
     </div><!-- End Page Title -->
 
     <section class="section">
@@ -88,14 +87,13 @@
 
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title"><?php echo $title; ?></h5>
+                        <h5 class="card-name"><?php echo $name; ?></h5>
                         <!-- kalo mau ada inputan file tambahin enctype="multipart/form-data" -->
                         <form action="" method="post" enctype="multipart/form-data">
-                            <label for="">Title</label>
-                            <input type="text" name="title" class="form-control" required value="<?php echo ($id) ? $rowEdit['title'] : '' ?>">
+                            <label for="">Name</label>
+                            <input type="text" name="name" class="form-control" required value="<?php echo ($id) ? $rowEdit['name'] : '' ?>">
                             <label for="">Content</label>
                             <!-- dibawah ini cara make summernote (cek <script> home.php buat konteks)  -->
-                            <textarea name="content" id="summernote" class="form-control" required value="<?php echo ($id) ? $rowEdit['content'] : '' ?>"></textarea>
                             <label for="">Publish / Draft</label>
                             <select name="is_active" id="" class="form-control">
                                 <option <?php echo ($id) ? $rowEdit['is_active'] == 1 ? 'selected' : '' : '' ?> value="1">Publish</option>
@@ -107,7 +105,7 @@
                                 <button class="btn btn-outline-primary" type="submit" name="simpan">Simpan</button>
                             </div>
                         </form>
-                        <button class="btn btn-outline-success" href="?page=about">Kembali</button>
+                        <button class="btn btn-outline-success" href="?page=client">Kembali</button>
                     </div>
                 </div>
             </div>

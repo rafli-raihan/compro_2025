@@ -26,8 +26,8 @@
             </a>
           </li>
           <li>
-            <a href="components-badges.html">
-              <i class="bi bi-circle"></i><span>Badges</span>
+            <a href="?page=client">
+              <i class="bi bi-circle"></i><span>Client</span>
             </a>
           </li>
           <li>

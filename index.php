@@ -5,10 +5,16 @@ include 'admin/koneksi.php';
 # LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel, 
 # kalo mau fetch semua data tabel gak usah pake LIMIT, klo mau ambil data trus diurutin make id tambahin ORDER BY id DESC
 $querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
-$row = mysqli_fetch_assoc($querySetting);
+$row = mysqli_fetch_assoc($querySetting); # pake ini klo mw fetch 1 dataq
 
 $querySlider = mysqli_query($koneksi, "SELECT * FROM slider ORDER BY id DESC");
-$rowSliders = mysqli_fetch_all($querySlider, MYSQLI_ASSOC);
+$rowSliders = mysqli_fetch_all($querySlider, MYSQLI_ASSOC); #pake ini klo mw fetch banyak data
+
+$queryAbout = mysqli_query($koneksi, "SELECT * FROM about WHERE is_active = 1 ORDER BY id DESC"); // ini jadi cm ngetfetch data about yg pas di upload dipilih publish (is_active = 1)
+$rowAbout = mysqli_fetch_assoc($queryAbout);
+
+$queryClient = mysqli_query($koneksi, "SELECT * FROM client WHERE is_active = 1 ORDER BY id DESC"); // ini jadi cm ngetfetch data client yg pas di upload dipilih publish (is_active = 1)
+$rowClient = mysqli_fetch_all($queryClient, MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -92,20 +98,14 @@ $rowSliders = mysqli_fetch_all($querySlider, MYSQLI_ASSOC);
 
         <div class="row position-relative">
 
-          <div class="col-lg-7 about-img" data-aos="zoom-out" data-aos-delay="200"><img src="assets/img/about.jpg"></div>
+          <div class="col-lg-7 about-img" data-aos="zoom-out" data-aos-delay="200"><img src="admin/uploads/about/<?php echo $rowAbout['image'] ?>"></div>
 
           <div class="col-lg-7" data-aos="fade-up" data-aos-delay="100">
-            <h2 class="inner-title">Consequatur eius et magnam</h2>
+            <h2 class="inner-title"><?php echo (isset($rowAbout['title'])) ? $rowAbout['title'] : 'Tentang Kami' ?></h2>
             <div class="our-story">
-              <h4>Est 1988</h4>
-              <h3>Our Story</h3>
-              <p>Inventore aliquam beatae at et id alias. Ipsa dolores amet consequuntur minima quia maxime autem. Quidem id sed ratione. Tenetur provident autem in reiciendis rerum at dolor. Aliquam consectetur laudantium temporibus dicta minus dolor.</p>
-              <ul>
-                <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea commo</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Duis aute irure dolor in reprehenderit in</span></li>
-                <li><i class="bi bi-check-circle"></i> <span>Ullamco laboris nisi ut aliquip ex ea</span></li>
-              </ul>
-              <p>Vitae autem velit excepturi fugit. Animi ad non. Eligendi et non nesciunt suscipit repellendus porro in quo eveniet. Molestias in maxime doloremque.</p>
+              <div class="about-content">
+                <?php echo (isset($rowAbout['content'])) ? $rowAbout['content'] : '<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Recusandae porro praesentium non officiis enim inventore illo a sed animi neque error eveniet quos explicabo nulla dolore, quod fugiat omnis distinctio?</p>' ?>
+              </div>
 
               <div class="watch-video d-flex align-items-center position-relative">
                 <i class="bi bi-play-circle"></i>
@@ -358,39 +358,11 @@ $rowSliders = mysqli_fetch_all($querySlider, MYSQLI_ASSOC);
       <div class="container" data-aos="fade-up" data-aos-delay="100">
 
         <div class="row g-0 clients-wrap">
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-1.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-2.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-3.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-4.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-5.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-6.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-7.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
-          <div class="col-xl-3 col-md-4 client-logo">
-            <img src="assets/img/clients/client-8.png" class="img-fluid" alt="">
-          </div><!-- End Client Item -->
-
+          <?php foreach ($rowClient as $key => $clientele): ?>
+            <div class="col-xl-3 col-md-4 client-logo">
+              <img src="admin/uploads/client/<?php echo (isset($clientele['image'])) ? $clientele['image'] : '' ?>" class="img-fluid" alt="">
+            </div><!-- End Client Item -->
+          <?php endforeach ?>
         </div>
 
       </div>
