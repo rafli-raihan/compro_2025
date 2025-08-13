@@ -2,10 +2,13 @@
 # koneksi php tuh file sakti bwt sambungin database
 include 'admin/koneksi.php';
 # $querySettings sm $row ini buat narik table database
-$querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
 # LIMIT buat ngebatasin berapa banyak data yg di query / fetch dari db, misal LIMIT 3 ya dia fetch 3 data aj dari keseluruhan tabel, 
 # kalo mau fetch semua data tabel gak usah pake LIMIT, klo mau ambil data trus diurutin make id tambahin ORDER BY id DESC
+$querySetting = mysqli_query($koneksi, "SELECT * FROM settings LIMIT 1");
 $row = mysqli_fetch_assoc($querySetting);
+
+$querySlider = mysqli_query($koneksi, "SELECT * FROM slider ORDER BY id DESC");
+$rowSliders = mysqli_fetch_all($querySlider, MYSQLI_ASSOC);
 ?>
 
 <!DOCTYPE html>
@@ -55,35 +58,18 @@ $row = mysqli_fetch_assoc($querySetting);
 
     <!-- Hero Section -->
     <section id="hero" class="hero section dark-background">
-
+      <!-- Ini buat loop foto di carousel -->
       <div id="hero-carousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
-
-        <div class="carousel-item active">
-          <img src="assets/img/hero-carousel/hero-carousel-1.jpg" alt="">
-          <div class="container">
-            <h2>We are professional</h2>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            <a href="about.html" class="btn-get-started">Read More</a>
+        <?php foreach ($rowSliders as $key => $sliderPic): ?>
+          <div class="carousel-item <?php echo ($key == 0) ? 'active' : '' ?>">
+            <img src="admin/uploads/<?php echo $sliderPic['image'] ?>" alt="">
+            <div class="container">
+              <h2><?php echo $sliderPic['title'] ?></h2>
+              <p><?php echo $sliderPic['description'] ?></p>
+              <a href="about.html" class="btn-get-started">Read More</a>
+            </div>
           </div>
-        </div><!-- End Carousel Item -->
-
-        <div class="carousel-item">
-          <img src="assets/img/hero-carousel/hero-carousel-2.jpg" alt="">
-          <div class="container">
-            <h2>At vero eos et accusamus</h2>
-            <p>Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus, omnis voluptas assumenda est, omnis dolor repellendus. Temporibus autem quibusdam et aut officiis debitis aut.</p>
-            <a href="about.html" class="btn-get-started">Read More</a>
-          </div>
-        </div><!-- End Carousel Item -->
-
-        <div class="carousel-item">
-          <img src="assets/img/hero-carousel/hero-carousel-3.jpg" alt="">
-          <div class="container">
-            <h2>Temporibus autem quibusdam</h2>
-            <p>Beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt omnis iste natus error sit voluptatem accusantium.</p>
-            <a href="about.html" class="btn-get-started">Read More</a>
-          </div>
-        </div><!-- End Carousel Item -->
+        <?php endforeach ?><!-- End Carousel Item -->
 
         <a class="carousel-control-prev" href="#hero-carousel" role="button" data-bs-slide="prev">
           <span class="carousel-control-prev-icon bi bi-chevron-left" aria-hidden="true"></span>
