@@ -63,7 +63,7 @@ $rowClient = mysqli_fetch_all($queryClient, MYSQLI_ASSOC);
   <main class="main">
 
     <?php
-    include 'routerview.php'; // biar kya react / vue
+    include 'routerview.php'; // biar kya react / vue SPA
     ?>
 
   </main>

@@ -1,7 +1,5 @@
-# home.php adalah master template
-
-
 <?php
+# home.php adalah master template
 session_start();
 ob_start();
 include 'koneksi.php';
@@ -24,6 +22,7 @@ if (empty($_SESSION['ID_USER'])) {
   <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+  <link rel="stylesheet" href="assets/js/tagify/tagify.css">
 
   <?php
   include 'inc/css.php';
@@ -66,6 +65,12 @@ if (empty($_SESSION['ID_USER'])) {
   ?>
 
   <!-- Summernote itu form kya di github markdown editor, cara manggilnya cek di tambah-about.php -->
+  <script src="assets/js/tagify/tagify.js"></script>
+  <script>
+    // inputTags buat bikin inputan yang nanggung tags a la Bisnis, Ekonomi, IT dst
+    let input = document.querySelector('#tags');
+    new Tagify(input);
+  </script>
   <script>
     $('#summernote').summernote({
       height: 300, // set editor height

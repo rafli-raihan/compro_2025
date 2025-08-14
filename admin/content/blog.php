@@ -41,8 +41,8 @@ function changeIsActive($isActive)
                             <tr>
                                 <th>No</th>
                                 <th>Gambar</th>
-                                <th>Kategori</th>
                                 <th>Judul</th>
+                                <th>Kategori</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -56,7 +56,7 @@ function changeIsActive($isActive)
                                     </td>
                                     <td><?php echo $row['title']; ?></td>
                                     <td><?php echo $row['name']; ?></td>
-                                    <td><?php echo changeIsActive($row['$is_active']) ?></td>
+                                    <td><?php echo changeIsActive($row['is_active']) ?></td>
                                     <td>
                                         <a href="?page=tambah-blogs&edit=<?php echo $row['id'] ?>" class="btn btn-success">
                                             Edit

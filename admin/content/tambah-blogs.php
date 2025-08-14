@@ -15,10 +15,12 @@
         $title = $_POST['title'];
         $content = $_POST['content'];
         $is_active = $_POST['is_active'];
+        $penulis = $_SESSION['NAME']; # Ini jadi ngambil username akun yg ke login di admin bwt jd penulis
+        $id_category = $_POST['id_category'];
         $tags = $_POST['tags'];
-        $penulis = $_SESSION['NAME'];
-        //buat narik gambar dari upload file
-        if (!empty($_FILES['image']['name'])) {      #$_FILE ini buat ngolah file dari form type file
+
+        // buat narik gambar dari upload file
+        if (!empty($_FILES['image']['name'])) {      #$_FILE ini buat ngolah file dari form type file, dan ini buat cek file foto nya udah ke up apa blom ()
             $image = $_FILES['image']['name'];
             $tmp_name = $_FILES['image']['tmp_name'];
 
@@ -47,20 +49,25 @@
                 echo "tidak boleh upload";
                 die;
             }
+            // ini buat edit blog klo ada gambar
+            $update_image = "UPDATE blogs SET title='$title', content='$content', image='$image_name', is_active='$is_active', penulis='$penulis', id_category='$id_category', tags='$tags' WHERE id='$id'";
+        } else {
+            // ini buat edit blog klo gak ada gambar
+            $update_image = "UPDATE blogs SET title='$title', content='$content', is_active='$is_active', penulis='$penulis', id_category='$id_category', tags='$tags' WHERE id='$id'";
         }
 
 
         if ($id) {
             // disini edit blogs
-            $insert = mysqli_query($koneksi, "UPDATE blogs SET title='$title', content='$content', image='$image_name', is_active='$is_active', penulis='$penulis', tags='$tags' WHERE id='$id'");
+            $insert = mysqli_query($koneksi, $update_image);
             if ($insert) {
-                header("location:?page=blogs&ubah=berhasil");
+                header("location:?page=blog&ubah=berhasil");
             }
         } else {
             // disini tambah blogs
-            $insert = mysqli_query($koneksi, "INSERT INTO blogs (title, content, image, is_active, penulis, tags) VALUES ('$title','$content','$image_name','$is_active','$penulis','$tags')");
+            $insert = mysqli_query($koneksi, "INSERT INTO blogs (title, content, image, is_active, penulis, id_category, tags) VALUES ('$title','$content','$image_name','$is_active','$penulis','$id_category','$tags')");
             if ($insert) {
-                header("location:?page=blogs&tambah=berhasil");
+                header("location:?page=blog&tambah=berhasil");
             }
         }
     }
@@ -75,7 +82,7 @@
 
         $delete = mysqli_query($koneksi, "DELETE FROM blogs WHERE id='$id'");
         if ($delete) {
-            header("location:?page=blogs&hapus=berhasil");
+            header("location:?page=blog&hapus=berhasil");
         }
     }
 
@@ -97,7 +104,7 @@
                             <h5 class="card-title"><?php echo $title; ?></h5>
                             <!-- kalo mau ada inputan file tambahin enctype="multipart/form-data" -->
                             <label for="" class="form-label">Kategori</label>
-                            <select name="kategori" class="form-control">
+                            <select name="id_category" class="form-control">
                                 <option value="">Pilih Kategori</option>
                                 <?php foreach ($rowCategory as $key => $categories) : ?>
                                     <option value="<?php echo $categories['id'] ?>"><?php echo $categories['name'] ?></option>
@@ -106,12 +113,12 @@
                             <label for="" class="form-label">Title</label>
                             <input type="text" name="title" class="form-control" required value="<?php echo ($id) ? $rowEdit['title'] : '' ?>">
                             <label for="" class="form-label">Tags</label>
-                            <input type="text" name="tags" class="form-control" required value="<?php echo ($id) ? $rowEdit['tags'] : '' ?>">
+                            <input type="text" id="tags" name="tags" class="form-control" required value="<?php echo ($id && !empty($rowEdit['$tags'])) ? json_encode(json_decode($rowEdit['tags'])) : '' ?>">
                             <label for="" class="form-label">Image</label>
                             <input type="file" name="image" class="form-control">
                             <!-- dibawah ini cara make summernote (cek <script> home.php buat konteks)  -->
                             <label for="" class="form-label">Content</label>
-                            <textarea name="content" id="summernote" class="form-control" required value="<?php echo ($id) ? $rowEdit['content'] : '' ?>"></textarea>
+                            <textarea name="content" id="summernote" class="form-control" required><?php echo ($id) ? $rowEdit['content'] : '' ?></textarea>
                         </div>
                     </div>
                 </div>
