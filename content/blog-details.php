@@ -59,12 +59,16 @@
                                     <li><a href="#"><?php echo $rowBlog['name'] ?></a></li>
                                 </ul>
 
-                                <!-- <i class="bi bi-tags"></i>
+                                <?php
+                                $tags = json_decode($rowBlog['tags'], true); # ini buat convert Map / List ke Array biasa (asosiatif) jadi bisa di print make foreach
+                                ?>
+
+                                <i class="bi bi-tags"></i>
                                 <ul class="tags">
-                                    <li><a href="#">Creative</a></li>
-                                    <li><a href="#">Tips</a></li>
-                                    <li><a href="#">Marketing</a></li>
-                                </ul> -->
+                                    <?php foreach ($tags as $tag): ?>
+                                        <li><a href="#"><?php echo $tag['value'] ?></a></li>
+                                    <?php endforeach ?>
+                                </ul>
                             </div><!-- End meta bottom -->
 
                         </article>

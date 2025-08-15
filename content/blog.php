@@ -1,6 +1,6 @@
 <?php
-$queryBlogs = mysqli_query($koneksi, "SELECT categories.name, blogs.* FROM blogs 
-JOIN categories ON categories.id = blogs.id_category 
+$queryBlogs = mysqli_query($koneksi, "SELECT categories.name, blogs.* FROM blogs
+JOIN categories ON categories.id = blogs.id_category  WHERE is_active=1  
 ORDER BY blogs.id DESC");
 $rowBlogs = mysqli_fetch_all($queryBlogs, MYSQLI_ASSOC);
 ?>
