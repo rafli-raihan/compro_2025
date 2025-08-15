@@ -29,8 +29,8 @@
 
                 <ul class="portfolio-filters isotope-filters" data-aos="fade-up" data-aos-delay="100">
                     <li data-filter="*" class="filter-active">All</li>
-                    <?php foreach ($rowPortofolio as $key => $portofolio): ?>
-                        <li data-filter=".filter-<?php echo $portofolio['id_cat'] ?>"><?php echo $portofolio['name'] ?></li>
+                    <?php foreach ($rowCategory as $key => $portocat): ?>
+                        <li data-filter=".filter-<?php echo $portocat['id'] ?>"><?php echo $portocat['name'] ?></li>
                     <?php endforeach ?>
                 </ul><!-- End Portfolio Filters -->
 
